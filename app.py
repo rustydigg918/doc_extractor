@@ -12,7 +12,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 import openai
-from playsound import playsound
+# from playsound import playsound
 from gtts import gTTS
 from PyPDF2 import PdfReader
 from utils import text_to_docs
