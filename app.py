@@ -51,7 +51,8 @@ def transcribe_audio(filename):
         return transcript["text"]
 
 
-st.title("Information Extractor SAR")
+st.title("Suspicious Activity Reporting")
+st.caption('Evidence Processor')
 
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
