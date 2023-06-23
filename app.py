@@ -125,7 +125,7 @@ if st.button("Submit"):
         response = usellm(prompts)
         # Print the assistant's response
         # st.subheader("Few informative points in the uploaded document are as follows:")
-        st.write(response)
+        # st.write(response)
 
 #st.write("Uploaded File Contents:")
 if file is not None:
