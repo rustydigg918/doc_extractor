@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat May 27 13:26:06 2023
-
-@author: sintu
-"""
 import random
 import streamlit as st
 from langchain.llms import OpenAI
