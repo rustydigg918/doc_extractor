@@ -60,7 +60,7 @@ def usellm(prompt):
 
     service = UseLLM(service_url="https://usellm.org/api/llm")
     messages = [
-      Message(role="system", content="You are a financial and share market analyst"),
+      Message(role="system", content="You are a fraud analyst"),
       Message(role="user", content=f"{prompt}"),
       ]
     options = Options(messages=messages)
@@ -114,21 +114,17 @@ if st.button("Submit"):
         # File handling logic
         st.write("File Uploaded...")
         _, docsearch = embedding_store(file)
-        queries ="Revenue of the company and business risks?\
-        company forcasts and performance in different category or segments if any."
+        queries ="Any fraud encountered in the passed document?\
+        if any."
         contexts = docsearch.similarity_search(queries, k=1)
         prompts = f"Give concise answer to the below questions as truthfully as possible as per given context only,\n\n\
-              1. Revenue of the company and business risks? \n\
-              2. Create sections explaining some chosen subtopics related to the uploaded file.\n\
-              3. What are some of the business risk?\n\
-              4. Give me product-wise or service-wise performance\
               Context: {contexts}\n\
               Response (in readable bullet points): "
               
 
         response = usellm(prompts)
         # Print the assistant's response
-        st.subheader("Few informative points in the uploaded document are as follows:")
+        # st.subheader("Few informative points in the uploaded document are as follows:")
         st.write(response)
 
 #st.write("Uploaded File Contents:")
