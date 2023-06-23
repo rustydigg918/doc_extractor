@@ -52,7 +52,7 @@ def transcribe_audio(filename):
 
 
 st.title("Suspicious Activity Reporting")
-st.caption('Evidence Processor')
+st.subheader('Evidence Processor')
 
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
