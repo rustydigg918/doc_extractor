@@ -30,7 +30,7 @@ from langchain import PromptTemplate, LLMChain
 #from scipy.io.wavfile import write
 from usellm import Message, Options, UseLLM
 
-llm = OpenAI(model_name='text-davinci-003', temperature=0.2, max_tokens=512, openai_api_key='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')
+llm = OpenAI(model_name='text-davinci-003', temperature=0.2, max_tokens=512, openai_api_key=st.secrets["api_key"])
 
 def record_audio(filename):
     duration=5
@@ -51,7 +51,7 @@ def transcribe_audio(filename):
         return transcript["text"]
 
 
-st.title("Smart QnA")
+st.title("Information Extractor SAR")
 
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
@@ -71,7 +71,7 @@ def usellm(prompt):
 @st.cache_resource
 def embed(model_name):
     hf_embeddings = HuggingFaceEmbeddings(model_name=model_name)
-    #embedding = OpenAIEmbeddings(openai_api_key='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')
+    
     return hf_embeddings
 
 # @st.cache_resource
@@ -79,7 +79,7 @@ def embed(model_name):
 #     chain = load_summarize_chain(llm=_llm, chain_type="map_reduce")
 # chain = load_summarize_chain(llm=llm, chain_type="map_reduce")
 
-hf_embeddings = embed(model_name) #OpenAIEmbeddings(openai_api_key='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')
+hf_embeddings = embed(model_name) 
 
 # File Upload
 file = st.file_uploader("Upload a file")
