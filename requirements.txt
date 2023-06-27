@@ -8,3 +8,8 @@ PyPDF2==3.0.1
 usellm==0.0.7
 gTTS==2.3.2
 huggingface-hub==0.15.1
+opencv-python==4.7.0.72
+pytesseract==0.3.8
+PyPDF2==1.26.0
+pdf2image==1.16.0
+numpy==1.25.0
