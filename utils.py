@@ -1,4 +1,4 @@
-import os
+import os,io
 import numpy as np
 import streamlit as st
 from io import BytesIO
@@ -6,6 +6,10 @@ import streamlit.components.v1 as components
 from typing import List, Dict, Any
 from langchain.docstore.document import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+# import cv
+# import PyPDF2
+# import pytesseract
+# from pdf2image import convert_from_path
 
 def st_audiorec():
 
@@ -67,3 +71,57 @@ def text_to_docs(text: str) -> List[Document]:
             doc_chunks.append(doc)
     return doc_chunks
 
+def convert_scanned_pdf_to_searchable_pdf(input_file, output_file):
+    """
+     Convert a Scanned PDF to Searchable PDF
+
+    """
+    # Convert PDF to images
+    images = convert_from_path(input_file)
+
+    # Preprocess images using OpenCV
+    for i, image in enumerate(images):
+        # Convert image to grayscale
+        image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
+
+        # Apply thresholding to remove noise
+        _, image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        # Enhance contrast
+        image = cv2.equalizeHist(image)
+
+        # Save preprocessed image
+        cv2.imwrite(f'{i}.png', image)
+
+    # Perform OCR on preprocessed images using Tesseract
+    text = ''
+    for i in range(len(images)):
+        image = cv2.imread(f'{i}.png')
+        text += pytesseract.image_to_string(image)
+
+    # Add searchable layer to PDF using PyPDF2
+    pdf_writer = PyPDF2.PdfFileWriter()
+    with open(input_file, 'rb') as f:
+        pdf_reader = PyPDF2.PdfFileReader(f)
+        for i in range(pdf_reader.getNumPages()):
+            page = pdf_reader.getPage(i)
+            pdf_writer.addPage(page)
+            pdf_writer.addBookmark(f'Page {i+1}', i)
+
+    pdf_writer.addMetadata({
+        '/Title': os.path.splitext(os.path.basename(input_file))[0],
+        '/Author': 'Doc Manager',
+        '/Subject': 'Searchable PDF',
+        '/Keywords': 'PDF, searchable, OCR',
+        '/Creator': 'Py script',
+        '/Producer': 'EXL Service',
+    })
+
+    pdf_writer.addAttachment('text.txt', text.encode())
+
+    with open(output_file, 'wb') as f:
+        pdf_writer.write(f)
+
+    # Clean up temporary files
+    for i in range(len(images)):
+        os.remove(f'{i}.png')
