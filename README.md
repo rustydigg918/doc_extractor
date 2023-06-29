@@ -1,2 +1,1 @@
-# GenAI-Hackathon
-Generative AI Hackathon hosted by Jovian, Multiply Ventures
+SAR Use Case
